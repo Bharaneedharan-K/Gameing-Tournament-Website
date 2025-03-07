@@ -1,0 +1,752 @@
+/* General Styles */
+:root {
+    --primary-color: #6c5ce7;
+    --secondary-color: #2d3436;
+    --accent-color: #00b894;
+    --text-color: #ffffff;
+    --text-muted: #a8a8a8;
+    --background-color: #1e272e;
+    --card-bg: #2d3436;
+    --success-color: #00b894;
+    --warning-color: #fdcb6e;
+    --danger-color: #d63031;
+    --gradient-start: #6c5ce7;
+    --gradient-end: #00b894;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-color);
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-color);
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(108, 92, 231, 0.1) 0%, rgba(0, 184, 148, 0.1) 100%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Ensure all text is properly colored */
+p, span, div, h1, h2, h3, h4, h5, h6, a, button, input, select, textarea {
+    color: var(--text-color);
+}
+
+.text-muted, .card-text {
+    color: var(--text-muted) !important;
+}
+
+.container {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    color: var(--text-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.section-title {
+    color: var(--text-color);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.section-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+    border-radius: 2px;
+}
+
+/* Form Controls */
+.form-control, .form-select {
+    background-color: rgba(45, 52, 54, 0.8) !important;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    color: var(--text-color) !important;
+    padding: 12px 15px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: rgba(45, 52, 54, 0.95) !important;
+    border: 2px solid var(--primary-color) !important;
+    color: var(--text-color) !important;
+    box-shadow: 0 0 15px rgba(108, 92, 231, 0.3) !important;
+    outline: none;
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Additional form styles */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="datetime-local"],
+textarea,
+select {
+    color: var(--text-color) !important;
+    background-color: rgba(45, 52, 54, 0.8) !important;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    padding: 12px 15px;
+    border-radius: 8px;
+    width: 100%;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="datetime-local"]:focus,
+textarea:focus,
+select:focus {
+    color: var(--text-color) !important;
+    background-color: rgba(45, 52, 54, 0.95) !important;
+    border: 2px solid var(--primary-color) !important;
+    outline: none;
+    box-shadow: 0 0 15px rgba(108, 92, 231, 0.3);
+}
+
+/* Active state for inputs */
+.form-control:active,
+input[type="text"]:active,
+input[type="email"]:active,
+input[type="password"]:active,
+input[type="number"]:active,
+input[type="datetime-local"]:active,
+textarea:active,
+select:active {
+    border-color: var(--accent-color) !important;
+    box-shadow: 0 0 10px rgba(0, 184, 148, 0.2);
+}
+
+/* Hover state for inputs */
+.form-control:hover,
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="password"]:hover,
+input[type="number"]:hover,
+input[type="datetime-local"]:hover,
+textarea:hover,
+select:hover {
+    border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Form labels */
+.form-label {
+    color: var(--text-color) !important;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+/* Form container styles */
+.form-container {
+    background: rgba(45, 52, 54, 0.7);
+    padding: 2rem;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+/* Navigation */
+.navbar {
+    background: linear-gradient(to right, rgba(44, 47, 51, 0.95), rgba(35, 39, 42, 0.95)) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar-brand {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent !important;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.nav-link {
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.5rem 1rem !important;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 80%;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    padding: 120px 0;
+    margin-top: -1.5rem;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(108, 92, 231, 0.3) 0%, rgba(0, 184, 148, 0.3) 100%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    animation: fadeInUp 1s ease-out;
+}
+
+/* Cards */
+.card {
+    background: linear-gradient(145deg, var(--card-bg), rgba(45, 52, 54, 0.9));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-color: rgba(108, 92, 231, 0.3);
+}
+
+.card-header {
+    background: rgba(45, 52, 54, 0.9);
+    border-bottom: 2px solid var(--accent-color);
+    padding: 1.25rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-title {
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.card-text {
+    color: var(--text-muted);
+}
+
+/* Tournament Cards */
+.tournament-card {
+    position: relative;
+}
+
+.tournament-card .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.tournament-card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.tournament-info {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.tournament-info i {
+    color: var(--accent-color);
+}
+
+.prize-pool {
+    color: var(--success-color);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+/* Game Category Cards */
+.game-category-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.game-category-card .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.game-category-card:hover .card-img-top {
+    transform: scale(1.1);
+}
+
+.game-category-card .card-body {
+    background: linear-gradient(to top, var(--card-bg) 80%, transparent);
+}
+
+/* Buttons */
+.btn {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: all 0.5s ease;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn-primary {
+    background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+    border: none;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+}
+
+.btn-outline-light:hover {
+    transform: translateY(-2px);
+}
+
+/* Badges */
+.badge {
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Features Section */
+.features-section {
+    background: linear-gradient(135deg, rgba(45, 52, 54, 0.95), rgba(30, 39, 46, 0.95));
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card {
+    background: rgba(45, 52, 54, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-color);
+}
+
+.feature-card p {
+    color: var(--text-muted);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 1.5rem;
+}
+
+/* Tables */
+.table {
+    color: var(--text-color) !important;
+    background-color: var(--card-bg) !important;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.table thead {
+    background-color: var(--primary-color) !important;
+    color: var(--text-color) !important;
+}
+
+.table thead th {
+    color: var(--text-color) !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    padding: 1rem;
+    border-bottom: none;
+    vertical-align: middle;
+    background-color: var(--primary-color) !important;
+}
+
+.table tbody tr {
+    background-color: var(--card-bg) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.table td {
+    color: var(--text-color) !important;
+    padding: 1rem;
+    vertical-align: middle;
+    background-color: var(--card-bg) !important;
+}
+
+.table-responsive {
+    background-color: var(--card-bg) !important;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Table hover effect */
+.table tbody tr:hover {
+    background-color: rgba(108, 92, 231, 0.15) !important;
+    transition: background-color 0.3s ease;
+}
+
+/* Override Bootstrap's default white background */
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(45, 52, 54, 0.98) !important;
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+    background-color: rgba(45, 52, 54, 0.95) !important;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(108, 92, 231, 0.15) !important;
+}
+
+/* Force dark theme on all tables */
+.table,
+.table-striped,
+.table-hover,
+.table-bordered {
+    color: var(--text-color) !important;
+    background-color: var(--card-bg) !important;
+}
+
+/* Override any white backgrounds */
+.table > :not(caption) > * > * {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+}
+
+/* Prize Distribution override */
+.prize-distribution {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.prize-distribution h5 {
+    color: var(--success-color) !important;
+}
+
+/* Game category override */
+.game-category {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Status badges in table */
+.table .badge {
+    font-size: 0.8rem;
+    padding: 0.5em 0.8em;
+    font-weight: 500;
+}
+
+/* Table action buttons */
+.table .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    margin: 0 0.2rem;
+}
+
+/* Table dark theme specific styles */
+.table-dark {
+    color: var(--text-color);
+    background-color: var(--card-bg);
+}
+
+.table-dark thead {
+    background-color: var(--primary-color);
+}
+
+.table-dark tbody tr {
+    background-color: rgba(45, 52, 54, 0.95);
+}
+
+.table-dark td,
+.table-dark th {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Table striped dark theme */
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(45, 52, 54, 0.98);
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+    background-color: rgba(45, 52, 54, 0.95);
+}
+
+/* Table bordered dark theme */
+.table-bordered td,
+.table-bordered th {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Status colors in table */
+.table .status-pending {
+    color: var(--warning-color);
+}
+
+.table .status-approved {
+    color: var(--success-color);
+}
+
+.table .status-rejected {
+    color: var(--danger-color);
+}
+
+/* Footer */
+.footer {
+    background: linear-gradient(to right, rgba(44, 47, 51, 0.95), rgba(35, 39, 42, 0.95));
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem 0;
+    position: relative;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.animate-pulse {
+    animation: pulse 2s infinite;
+}
+
+/* Loading States */
+.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid var(--text-color);
+    border-top: 2px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 80px 0;
+    }
+    
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .feature-card {
+        margin-bottom: 2rem;
+    }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: darken(var(--primary-color), 10%);
+}
+
+/* Game Categories */
+.game-category {
+    padding: 1rem;
+    text-align: center;
+    border-radius: 0.5rem;
+    background-color: #fff;
+    margin-bottom: 1rem;
+}
+
+.game-category img {
+    max-width: 100px;
+    margin-bottom: 1rem;
+}
+
+/* Tournament Status */
+.tournament-status {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+}
+
+.status-active {
+    background-color: #28a745;
+    color: white;
+}
+
+.status-completed {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* Winner List */
+.winner-list {
+    list-style-position: inside;
+    padding-left: 0;
+}
+
+.winner-list li {
+    padding: 0.25rem 0;
+}
+
+/* Alert Messages */
+.alert {
+    border: none;
+    border-radius: 0.5rem;
+}
+
+/* Image Loading Fallback */
+.card-img-top {
+    position: relative;
+}
+
+.card-img-top::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--secondary-color);
+    z-index: -1;
+}
+
+/* Add loading animation */
+@keyframes imageLoadingPulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0.6; }
+}
+
+.card-img-top:not([src]), 
+.card-img-top[src=""], 
+.card-img-top[src="https://via.placeholder.com/400x200"] {
+    animation: imageLoadingPulse 1.5s ease-in-out infinite;
+    background-color: var(--secondary-color);
+    min-height: 150px;
+} 
