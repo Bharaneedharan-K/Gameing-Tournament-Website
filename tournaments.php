@@ -19,8 +19,8 @@ $selected_game = isset($_GET['game']) ? $_GET['game'] : 'all';
 $query = "
     SELECT t.*, g.name as game_name, 
            (SELECT COUNT(*) FROM tournament_players WHERE tournament_id = t.id) as current_players,
-           (SELECT status FROM tournament_registrations WHERE tournament_id = t.id AND player_id = ?) as registration_status,
-           (SELECT COUNT(*) FROM tournament_players WHERE tournament_id = t.id AND player_id = ?) as is_player,
+           (SELECT status FROM tournament_registrations WHERE tournament_id = t.id AND player_id = :user_id) as registration_status,
+           (SELECT COUNT(*) FROM tournament_players WHERE tournament_id = t.id AND player_id = :user_id) as is_player,
            (SELECT tournament_type FROM tournaments WHERE id = t.id) as tournament_type,
            (SELECT team_size FROM tournaments WHERE id = t.id) as team_size,
            (SELECT total_teams FROM tournaments WHERE id = t.id) as total_teams
@@ -34,11 +34,10 @@ if ($selected_game !== 'all') {
 $query .= " ORDER BY t.start_date ASC";
 
 $stmt = $pdo->prepare($query);
+$stmt->bindParam(':user_id', $_SESSION['user_id']);
 if ($selected_game !== 'all') {
     $stmt->bindParam(':game_id', $selected_game);
 }
-$stmt->bindValue(1, $_SESSION['user_id']);
-$stmt->bindValue(2, $_SESSION['user_id']);
 $stmt->execute();
 $tournaments = $stmt->fetchAll();
 
