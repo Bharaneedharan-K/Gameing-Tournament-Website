@@ -21,6 +21,8 @@ $query = "
            (SELECT COUNT(*) FROM tournament_players WHERE tournament_id = t.id) as current_players,
            (SELECT status FROM tournament_registrations WHERE tournament_id = t.id AND player_id = :user_id) as registration_status,
            (SELECT COUNT(*) FROM tournament_players WHERE tournament_id = t.id AND player_id = :user_id) as is_player,
+           (SELECT transaction_id FROM tournament_registrations WHERE tournament_id = t.id AND player_id = :user_id) as transaction_id,
+           (SELECT payment_status FROM tournament_registrations WHERE tournament_id = t.id AND player_id = :user_id) as payment_status,
            (SELECT tournament_type FROM tournaments WHERE id = t.id) as tournament_type,
            (SELECT team_size FROM tournaments WHERE id = t.id) as team_size,
            (SELECT total_teams FROM tournaments WHERE id = t.id) as total_teams
@@ -165,47 +167,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_tournament']
                                                 <?php if ($tournament['is_paid']): ?>
                                                     <!-- Payment Section -->
                                                     <div class="payment-section-<?php echo $tournament['id']; ?>">
-                                                        <!-- Initial View -->
-                                                        <div class="initial-view">
-                                                            <div class="d-grid">
-                                                                <button type="button" class="btn btn-primary" 
-                                                                        onclick="showPaymentQR(<?php echo $tournament['id']; ?>, 
-                                                                                             '<?php echo $tournament['upi_id']; ?>', 
-                                                                                             <?php echo $tournament['registration_fee']; ?>)">
-                                                                    <i class="fas fa-credit-card me-2"></i>Pay & Register
-                                                                </button>
+                                                        <?php if ($tournament['registration_status'] === 'pending' && $tournament['payment_status'] === 'pending'): ?>
+                                                            <!-- Initial View -->
+                                                            <div class="initial-view">
+                                                                <div class="d-grid">
+                                                                    <button type="button" class="btn btn-primary" 
+                                                                            onclick="showPaymentQR(<?php echo $tournament['id']; ?>, 
+                                                                                                 '<?php echo $tournament['upi_id']; ?>', 
+                                                                                                 <?php echo $tournament['registration_fee']; ?>)">
+                                                                        <i class="fas fa-credit-card me-2"></i>Pay & Register
+                                                                    </button>
+                                                                </div>
                                                             </div>
-                                                        </div>
 
-                                                        <!-- Payment QR View (Initially Hidden) -->
-                                                        <div class="payment-qr-view" style="display: none;">
-                                                            <div class="text-center mb-3">
-                                                                <div class="qr-code-container mb-3"></div>
-                                                                <p class="text-muted">Scan QR code to pay</p>
+                                                            <!-- Payment QR View (Initially Hidden) -->
+                                                            <div class="payment-qr-view" style="display: none;">
+                                                                <div class="text-center mb-3">
+                                                                    <div class="qr-code-container mb-3"></div>
+                                                                    <p class="text-muted">Scan QR code to pay</p>
+                                                                </div>
+                                                                
+                                                                <form method="POST" class="payment-form" enctype="multipart/form-data">
+                                                                    <input type="hidden" name="tournament_id" value="<?php echo $tournament['id']; ?>">
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Transaction ID</label>
+                                                                        <input type="text" name="transaction_id" class="form-control" required>
+                                                                        <small class="text-muted">Enter the UPI transaction ID</small>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Payment Screenshot</label>
+                                                                        <input type="file" name="transaction_screenshot" class="form-control" accept="image/*" required>
+                                                                    </div>
+                                                                    <div class="d-grid gap-2">
+                                                                        <button type="submit" name="register_tournament" class="btn btn-success">
+                                                                            <i class="fas fa-check-circle me-2"></i>Complete Registration
+                                                                        </button>
+                                                                        <button type="button" class="btn btn-outline-secondary" 
+                                                                                onclick="hidePaymentQR(<?php echo $tournament['id']; ?>)">
+                                                                            <i class="fas fa-arrow-left me-2"></i>Back
+                                                                        </button>
+                                                                    </div>
+                                                                </form>
                                                             </div>
-                                                            
-                                                            <form method="POST" class="payment-form" enctype="multipart/form-data">
-                                                                <input type="hidden" name="tournament_id" value="<?php echo $tournament['id']; ?>">
-                                                                <div class="mb-3">
-                                                                    <label class="form-label">Transaction ID</label>
-                                                                    <input type="text" name="transaction_id" class="form-control" required>
-                                                                    <small class="text-muted">Enter the UPI transaction ID</small>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label class="form-label">Payment Screenshot</label>
-                                                                    <input type="file" name="transaction_screenshot" class="form-control" accept="image/*" required>
-                                                                </div>
-                                                                <div class="d-grid gap-2">
-                                                                    <button type="submit" name="register_tournament" class="btn btn-success">
-                                                                        <i class="fas fa-check-circle me-2"></i>Complete Registration
-                                                                    </button>
-                                                                    <button type="button" class="btn btn-outline-secondary" 
-                                                                            onclick="hidePaymentQR(<?php echo $tournament['id']; ?>)">
-                                                                        <i class="fas fa-arrow-left me-2"></i>Back
-                                                                    </button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
+                                                        <?php elseif ($tournament['registration_status'] === 'pending' && $tournament['payment_status'] === 'pending'): ?>
+                                                            <div class="alert alert-warning">
+                                                                <i class="fas fa-clock me-2"></i>Payment verification pending
+                                                            </div>
+                                                        <?php elseif ($tournament['registration_status'] === 'pending' && $tournament['payment_status'] === 'rejected'): ?>
+                                                            <div class="alert alert-danger">
+                                                                <i class="fas fa-times-circle me-2"></i>Payment was rejected. Please try again.
+                                                            </div>
+                                                        <?php elseif ($tournament['registration_status'] === 'pending' && $tournament['payment_status'] === 'verified'): ?>
+                                                            <div class="alert alert-info">
+                                                                <i class="fas fa-check-circle me-2"></i>Payment verified. Waiting for admin approval.
+                                                            </div>
+                                                        <?php endif; ?>
                                                     </div>
                                                 <?php else: ?>
                                                     <?php if ($tournament['tournament_type'] === 'team'): ?>
